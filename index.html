@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreams PlayStation - Exploit Host</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg: #050a14;
+    --bg-grid: #0a1224;
+    --card: rgba(13, 22, 43, 0.85);
+    --border: #1a2b4c;
+    --accent: #0070D1; /* Biru PlayStation */
+    --accent-glow: #00A0FF;
+    --text: #E6EDF3;
+    --text-dim: #8B98A9;
+    --yellow: #FACC15;
+    --red: #EF4444;
+    --green: #00E5A0;
+    --glow: rgba(0, 160, 255, 0.25);
+    --wa-green: #25D366;
+  }
+
+  html, body {
+    min-height: 100%;
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: -1px -1px;
+    color: var(--text);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 24px;
+  }
+
+  /* ── Container Utama ── */
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 780px;
+    width: 100%;
+    gap: 20px;
+  }
+
+  /* ── Logo ── */
+  .logo-container {
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 5px;
+    filter: drop-shadow(0 0 20px var(--glow));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .logo-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+  }
+
+  /* ── Header ── */
+  h1 {
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  hr, br {
+    display: none;
+  }
+
+  body > h1:first-of-type {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent-glow);
+    border-radius: 12px;
+    padding: 20px 30px;
+    max-width: 780px;
+    width: 100%;
+    font-size: clamp(20px, 4vw, 32px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text);
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 0 1px rgba(0, 160, 255, 0.1),
+      0 20px 40px -20px rgba(0, 0, 0, 0.9),
+      0 0 60px -20px var(--glow);
+  }
+
+  body > h1:first-of-type::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 14px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    box-shadow: 0 0 10px var(--accent-glow);
+    vertical-align: middle;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
+  /* ── Menu Container ── */
+  #menu, #crypto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 780px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.9);
+  }
+
+  /* ── Tombol / Button ── */
+  .btn {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 8px auto;
+    padding: 14px 20px;
+    background: transparent;
+    border: 2px solid var(--accent-glow);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: clamp(14px, 1.8vw, 16px);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 1px;
+  }
+
+  .btn:hover {
+    background: var(--accent-glow);
+    color: #000;
+    box-shadow: 0 0 20px var(--glow);
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-multi {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+
+  .btn-multi:hover {
+    background: var(--yellow);
+    color: #000;
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+  }
+
+  .btn-onln {
+    border-color: var(--wa-green);
+    color: var(--wa-green);
+    font-size: clamp(12px, 1.5vw, 14px);
+    margin-top: 30px !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    max-width: 400px;
+  }
+
+  .btn-onln:hover {
+    background: var(--wa-green);
+    color: #000;
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+  }
+
+  /* Warna teks khusus di menu */
+  #menu h1[style*="yellow"] {
+    color: var(--yellow) !important;
+    font-size: clamp(16px, 2vw, 20px) !important;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* ── Crypto Section ── */
+  #crypto {
+    display: none; /* Default tersembunyi, diatur oleh JS */
+  }
+
+  #crypto h1 {
+    font-size: clamp(14px, 1.8vw, 18px) !important;
+    margin: 15px 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    word-break: break-all;
+  }
+
+  #crypto img {
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    margin: 10px 0;
+  }
+
+  /* ── Footer / Kontak WA ── */
+  .contact-wa {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 10px 24px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-weight: bold;
+    font-size: clamp(14px, 1.8vw, 16px);
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  .contact-wa:hover {
+    border-color: var(--wa-green);
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .contact-wa svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--wa-green);
+  }
+
+  .contact-wa span {
+    color: var(--text-dim);
+    font-size: 0.85em;
+    margin-right: 5px;
+  }
+
+  /* ── Animasi ── */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--accent-glow); }
+    50% { opacity: 0.4; box-shadow: 0 0 4px var(--accent-glow); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ── Responsif ── */
+  @media (max-width: 600px) {
+    body {
+      padding: 20px 14px;
+      gap: 16px;
+    }
+    body > h1:first-of-type {
+      padding: 16px 20px;
+      letter-spacing: 1px;
+    }
+    #menu, #crypto {
+      padding: 20px 15px;
+    }
+    .logo-container {
+      max-width: 220px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body > h1:first-of-type::before,
+    .logo-container {
+      animation: none;
+    }
+  }
+</style>
+</head>
+<body>
+<script>
+var histlength=history.length;history.go(-histlength 2);
+</script>
+
+<div class="main-container">
+  <!-- LOGO -->
+  <div class="logo-container">
+    <img src="logo.png" alt="Dreams PlayStation Logo">
+  </div>
+
+  <h1 id=msgs>Dreams PlayStation Host</h1>
+  <hr>
+  <br>
+
+  <div id=menu>
+    <h1 style="color: yellow;">Select Your Firmware</h1>
+    <button class="btn btn-multi" onmouseover="msgs.innerHTML='PS4 GoldHEN Host for 5.05 and 7.00 to 13.52 FW - (Auto Exploit Selection)'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'" onclick="location.replace('g2all/index.html')"> GoldHEN Multi FW </button>
+    <button class="btn" onmouseover="msgs.innerHTML='PS4 5.05 FW Host v2.5'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'" onclick="location.replace('505/index.html')"> 5.05 FW v2.5 </button>
+    <a href="672goldhen/index.html" style="width:100%; display:flex; justify-content:center; text-decoration:none;"><button class="btn" onmouseover="msgs.innerHTML='PS4 6.72 FW GoldHEN Host'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'"> 6.72 FW GoldHEN </button></a>
+    <a href="672/index.html" style="width:100%; display:flex; justify-content:center; text-decoration:none;"><button class="btn" onmouseover="msgs.innerHTML='PS4 6.72 FW Host v3.0'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'"> 6.72 FW v3.0 </button></a>
+    <br>
+    <a href="900goldhen/index.html" style="width:100%; display:flex; justify-content:center; text-decoration:none;"><button class="btn" onmouseover="msgs.innerHTML='PS4 9.00 FW GoldHEN Host - (FontFaceSet Webkit)'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'"> 9.00 FW GoldHEN </button></a>
+    <a href="900v3/index.html" style="width:100%; display:flex; justify-content:center; text-decoration:none;"><button class="btn" onmouseover="msgs.innerHTML='PS4 9.00 FW Host v3.0 - (FontFaceSet Webkit)'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'"> 9.00 FW v3.0 </button></a>
+    <br>
+    <button class="btn" onmouseover="msgs.innerHTML='Restore a Host to User&#8217;s Guide without using DNS'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'" onclick="location.replace('restore/index.html')"> Restore Host </button>
+    
+    <button class="btn btn-onln" onmouseover="msgs.innerHTML='If you like my work you can support me with a donation.'" onmouseout="msgs.innerHTML='Dreams PlayStation Host'" onclick="donations()"> For Donations (Only in Cryptocurrencies) </button>
+    
+    <h1 style="margin-top: 20px; font-size: 12px; color: var(--text-dim); text-transform: none;">Designed by: @GamerHack93<br>A special thanks to all the devs on the scene.</h1>
+  </div>
+
+  <div id=crypto>
+    <h1 style="color: yellow;">Donate with Bitcoin (BTC):</h1>
+    <img src="btc.jpg" width="150" height="150" alt="BTC QR">
+    <h1>bc1q6cnsykmvem6zgw8wag3ygee0jkhtxj6rkp2nrm</h1>
+    <br>
+    <h1 style="color: yellow;">Donate with Ethereum (ETH):</h1>
+    <img src="eth.jpg" width="150" height="150" alt="ETH QR">
+    <h1>0x7Ae1825ddE196925dB8B7832F436cA0eAeaF932c</h1>
+    <button class="btn" onclick="load_menu()"> Return </button>
+  </div>
+  
+  <!-- KONTAK WHATSAPP -->
+  <a href="https://wa.me/6289668984861" target="_blank" class="contact-wa">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 0C7.164 0 0 7.164 0 16c0 2.825.736 5.488 2.025 7.8L0 32l8.437-2.213C10.7 31.175 13.275 32 16 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.275c-2.45 0-4.75-.688-6.713-1.888l-.48-.287-4.963 1.3 1.325-4.838-.312-.5A13.21 13.21 0 012.725 16c0-7.325 5.95-13.275 13.275-13.275S29.275 8.675 29.275 16 23.325 29.275 16 29.275zm7.287-9.9c-.4-.2-2.363-1.163-2.725-1.3-.363-.137-.625-.2-.888.2-.263.4-1.025 1.3-1.25 1.563-.225.263-.45.3-.85.1-.4-.2-1.688-.625-3.213-1.988-1.188-1.063-1.988-2.375-2.225-2.775-.237-.4-.025-.613.175-.813.175-.175.4-.45.6-.675.2-.225.263-.387.4-.65.137-.263.063-.487-.037-.687-.1-.2-.888-2.138-1.213-2.925-.325-.787-.65-.675-.888-.688h-.762c-.263 0-.688.1-1.05.5-.363.4-1.388 1.35-1.388 3.3 0 1.95 1.413 3.838 1.613 4.1.2.263 2.788 4.25 6.75 5.963.95.4 1.688.637 2.263.812.95.3 1.813.263 2.5.163.763-.113 2.363-.963 2.7-1.9.338-.938.338-1.738.238-1.9-.1-.175-.363-.275-.763-.475z"/>
+    </svg>
+    <span>WHATSAPP:</span> 0896-6898-4861
+  </a>
+
+</div>
+
+<script>
+function donations(){
+document.getElementById("crypto").style.display = "block";
+document.getElementById("menu").style.display = "none";
+}
+
+function load_menu(){
+document.getElementById("menu").style.display = "block";
+document.getElementById("crypto").style.display = "none";
+}
+</script>
+</body>
+</html>
